@@ -3,11 +3,22 @@ import * as joi from 'joi';
 
 interface EnvVars {
   PORT: number;
+  DB_USER: string;
+  DB_PASS: string;
+  DB_HOST: string;
+  DB_NAME: string;
+  DB_PORT: number;
 }
 
 const envsSchema = joi
   .object({
     PORT: joi.number().required(),
+
+    DB_USER: joi.string().required(),
+    DB_PASS: joi.string().required(),
+    DB_HOST: joi.string().required(),
+    DB_NAME: joi.string().required(),
+    DB_PORT: joi.number().required(),
   })
   .unknown(true);
 
@@ -21,4 +32,9 @@ const envVars: EnvVars = value;
 
 export const envs = {
   port: envVars.PORT,
+  db_user: envVars.DB_USER,
+  db_pass: envVars.DB_PASS,
+  db_host: envVars.DB_HOST,
+  db_name: envVars.DB_NAME,
+  db_port: envVars.DB_PORT,
 };
