@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CommonModule } from './common/common.module';
 import { StoreModule } from './store/store.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { StoreModule } from './store/store.module';
     UsersModule,
     CommonModule,
     StoreModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [

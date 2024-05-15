@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -47,6 +51,23 @@ export class UsersService extends BaseService<User> {
       if (!user) {
         throw new NotFoundException('Usuario no existe.');
       }
+      return user;
+    } catch (error) {
+      this.handleExceptions(error);
+    }
+  }
+  async findByCredentials(email: string, password: string) {
+    try {
+      const user = await this.repository.findOneBy({ email });
+      if (!user) {
+        return new NotFoundException('Usuario no existe');
+      }
+
+      const hasAccess = bcrypt.compareSync(password, user.password);
+      if (!hasAccess) {
+        return new UnauthorizedException('Acceso denegado');
+      }
+
       return user;
     } catch (error) {
       this.handleExceptions(error);
