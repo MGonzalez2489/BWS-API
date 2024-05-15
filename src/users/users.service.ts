@@ -8,12 +8,12 @@ import { PaginationDTO } from 'src/common/dtos/pagination.dto';
 import { BaseService } from 'src/common/services';
 
 @Injectable()
-export class UsersService extends BaseService {
+export class UsersService extends BaseService<User> {
   constructor(
     @InjectRepository(User)
     private readonly repository: Repository<User>,
   ) {
-    super('UserService');
+    super(repository, 'UserService');
   }
 
   async create(createUserDto: CreateUserDto) {
@@ -28,12 +28,7 @@ export class UsersService extends BaseService {
 
   async findAll(pagination: PaginationDTO) {
     try {
-      const { limit = 10, offset = 0 } = pagination;
-
-      return await this.repository.find({
-        take: limit,
-        skip: offset,
-      });
+      return await this.paginate(pagination);
     } catch (error) {
       this.handleExceptions(error);
     }
