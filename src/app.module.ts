@@ -4,6 +4,7 @@ import { envs } from './_config';
 import { UsersModule } from './users/users.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CommonModule } from './common/common.module';
+import { StoreModule } from './store/store.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CommonModule } from './common/common.module';
     }),
     UsersModule,
     CommonModule,
+    StoreModule,
   ],
   controllers: [],
   providers: [
@@ -28,4 +30,4 @@ import { CommonModule } from './common/common.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }

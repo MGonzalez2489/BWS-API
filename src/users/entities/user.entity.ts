@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { BaseEntity } from 'src/common/entities';
 import { BeforeUpdate, Column, Entity } from 'typeorm';
 
@@ -13,6 +14,10 @@ export class User extends BaseEntity {
   email: string;
   @Column({ nullable: true })
   phone: string;
+
+  @Column({ nullable: true })
+  @Exclude()
+  password: string;
 
   @BeforeUpdate()
   formatProperties() {

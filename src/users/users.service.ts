@@ -7,6 +7,8 @@ import { Repository } from 'typeorm';
 import { PaginationDTO } from 'src/common/dtos/pagination.dto';
 import { BaseService } from 'src/common/services';
 
+import * as bcrypt from 'bcrypt';
+
 @Injectable()
 export class UsersService extends BaseService<User> {
   constructor(
@@ -18,9 +20,14 @@ export class UsersService extends BaseService<User> {
 
   async create(createUserDto: CreateUserDto) {
     try {
-      const user = this.repository.create(createUserDto);
+      const { password, ...userData } = createUserDto;
+      const user = this.repository.create({
+        ...userData,
+        password: bcrypt.hashSync(password, 10),
+      });
       await this.repository.save(user);
       return user;
+      //TODO: Return access token
     } catch (error) {
       this.handleExceptions(error);
     }
