@@ -4,7 +4,7 @@ import { AuthDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private readonly userService: UsersService) { }
   login(dto: AuthDto) {
     return this.userService.findByCredentials(dto.email, dto.password);
   }

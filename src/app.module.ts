@@ -6,6 +6,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CommonModule } from './common/common.module';
 import { StoreModule } from './store/store.module';
 import { AuthModule } from './auth/auth.module';
+import { CoreModule } from './core/core.module';
 
 @Module({
   imports: [
@@ -17,12 +18,13 @@ import { AuthModule } from './auth/auth.module';
       username: envs.db_user,
       password: envs.db_pass,
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
     }),
     UsersModule,
     CommonModule,
     StoreModule,
     AuthModule,
+    CoreModule,
   ],
   controllers: [],
   providers: [
@@ -32,4 +34,4 @@ import { AuthModule } from './auth/auth.module';
     },
   ],
 })
-export class AppModule { }
+export class AppModule {}

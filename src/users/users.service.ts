@@ -22,6 +22,11 @@ export class UsersService extends BaseService<User> {
     super(repository, 'UserService');
   }
 
+  /*
+   * Create one user using email and password
+   * @CreateUserDto includes email and password properties
+   * Password wil be encrypted in database
+   */
   async create(createUserDto: CreateUserDto) {
     try {
       const { password, ...userData } = createUserDto;
