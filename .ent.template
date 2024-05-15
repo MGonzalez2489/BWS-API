@@ -1,1 +1,10 @@
 PORT=3000
+DB_TYPE='mysql'
+DB_USER=''
+DB_PASS=''
+DB_HOST=''
+DB_NAME=''
+DB_PORT=3306
+
+JWT_SECRET=''
+
