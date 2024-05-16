@@ -5,6 +5,7 @@ DB_PASS=''
 DB_HOST=''
 DB_NAME=''
 DB_PORT=3306
+DB_SYNC=false
 
 JWT_SECRET=''
 
