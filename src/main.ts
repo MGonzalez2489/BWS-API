@@ -20,8 +20,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true, //bad request for not required props
     }),
   );
-  //
-
+  //SWAGGER
   const config = new DocumentBuilder()
     .setTitle('BWS API')
     .setDescription('')

@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { BaseEntity } from 'src/common/entities';
-import { BeforeUpdate, Column, Entity } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
@@ -18,6 +18,11 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   @Exclude()
   password: string;
+
+  @BeforeInsert()
+  formatCredentials() {
+    this.email = this.email.trim().toLowerCase();
+  }
 
   @BeforeUpdate()
   formatProperties() {

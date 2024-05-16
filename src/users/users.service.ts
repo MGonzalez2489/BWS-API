@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -22,11 +18,6 @@ export class UsersService extends BaseService<User> {
     super(repository, 'UserService');
   }
 
-  /*
-   * Create one user using email and password
-   * @CreateUserDto includes email and password properties
-   * Password wil be encrypted in database
-   */
   async create(createUserDto: CreateUserDto) {
     try {
       const { password, ...userData } = createUserDto;
@@ -36,7 +27,6 @@ export class UsersService extends BaseService<User> {
       });
       await this.repository.save(user);
       return user;
-      //TODO: Return access token
     } catch (error) {
       this.handleExceptions(error);
     }
@@ -61,18 +51,13 @@ export class UsersService extends BaseService<User> {
       this.handleExceptions(error);
     }
   }
-  async findByCredentials(email: string, password: string) {
+
+  async findByEmail(email: string): Promise<User> | undefined {
     try {
       const user = await this.repository.findOneBy({ email });
       if (!user) {
-        return new NotFoundException('Usuario no existe');
+        return undefined;
       }
-
-      const hasAccess = bcrypt.compareSync(password, user.password);
-      if (!hasAccess) {
-        return new UnauthorizedException('Acceso denegado');
-      }
-
       return user;
     } catch (error) {
       this.handleExceptions(error);
@@ -97,6 +82,11 @@ export class UsersService extends BaseService<User> {
     } catch (error) {
       this.handleExceptions(error);
     }
+  }
+
+  isValidUserPassword(plainText: string, hash): boolean {
+    const hasAccess: boolean = bcrypt.compareSync(plainText, hash);
+    return hasAccess;
   }
 
   async remove(id: string) {
