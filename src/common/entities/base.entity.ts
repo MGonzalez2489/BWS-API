@@ -1,20 +1,19 @@
 import { Exclude } from 'class-transformer';
 import {
+  Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity,
   Generated,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
 export class BaseEntity {
   @Exclude()
   @PrimaryGeneratedColumn()
   id: number;
 
-  @PrimaryGeneratedColumn()
+  @Column()
   @Generated('uuid')
   publicId: string;
 

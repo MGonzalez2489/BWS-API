@@ -30,8 +30,10 @@ export class User extends BaseEntity {
 
   //relations
   @OneToOne(() => ConsumerProfile, (consumerProfile) => consumerProfile.user)
+  @JoinColumn()
   consumerProfile: ConsumerProfile;
   @OneToOne(() => ArtistProfile, (artistProfile) => artistProfile.user)
+  @JoinColumn()
   artistProfile: ArtistProfile;
 
   //cycle

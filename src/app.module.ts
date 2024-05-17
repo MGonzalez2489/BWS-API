@@ -19,7 +19,7 @@ import { JwtAuthGuard } from './auth/guards/auth.guard';
       username: envs.db_user,
       password: envs.db_pass,
       autoLoadEntities: true,
-      synchronize: envs.db_sync,
+      synchronize: false, //envs.db_sync,
     }),
     UsersModule,
     CommonModule,
@@ -39,4 +39,4 @@ import { JwtAuthGuard } from './auth/guards/auth.guard';
     },
   ],
 })
-export class AppModule { }
+export class AppModule {}

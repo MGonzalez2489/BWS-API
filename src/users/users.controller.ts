@@ -12,6 +12,8 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaginationDTO } from 'src/common/dtos/pagination.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { GetUser } from 'src/auth/decorators';
+import { User } from './entities/user.entity';
 
 @Controller('users')
 @ApiTags('Users')
@@ -23,6 +25,10 @@ export class UsersController {
     return this.usersService.findAll(pagination);
   }
 
+  @Get('current')
+  findCurrent(@GetUser() user: User) {
+    return user;
+  }
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findOne(id);
