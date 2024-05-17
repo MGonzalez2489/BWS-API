@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateStoreDto } from './dto/create-store.dto';
-import { UpdateStoreDto } from './dto/update-store.dto';
-import { BaseService } from 'src/common/services';
-import { Store } from './entities/store.entity';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Store } from '../entities';
+import { StoreDto } from '../dto';
+import { BaseService } from '../../common/services';
 
 @Injectable()
 export class StoreService extends BaseService<Store> {
@@ -13,7 +13,7 @@ export class StoreService extends BaseService<Store> {
   ) {
     super(repository, 'StoreService');
   }
-  async create(createStoreDto: CreateStoreDto) {
+  async create(createStoreDto: StoreDto) {
     try {
       const store = this.repository.create(createStoreDto);
       await this.repository.save(store);
@@ -27,7 +27,7 @@ export class StoreService extends BaseService<Store> {
     return `This action returns a #${id} store`;
   }
 
-  update(id: number, updateStoreDto: UpdateStoreDto) {
+  update(id: number, updateStoreDto: StoreDto) {
     return `This action updates a #${id} store`;
   }
 }

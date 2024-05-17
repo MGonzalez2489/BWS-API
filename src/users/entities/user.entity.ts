@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { ConsumerProfile } from './consumer-profile.entity';
 import { ArtistProfile } from './artist-profile.entity';
+import { Store } from '../../store/entities/store.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -32,10 +33,16 @@ export class User extends BaseEntity {
   @OneToOne(() => ConsumerProfile, (consumerProfile) => consumerProfile.user)
   @JoinColumn()
   consumerProfile: ConsumerProfile;
+
   @OneToOne(() => ArtistProfile, (artistProfile) => artistProfile.user)
   @JoinColumn()
   artistProfile: ArtistProfile;
 
+  @OneToOne(() => Store, (store) => store.user)
+  @JoinColumn({ name: 'storeId' })
+  store: Store;
+
+  storeId: number;
   //cycle
 
   @BeforeInsert()

@@ -1,16 +1,16 @@
 import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
-import { StoreService } from './store.service';
-import { CreateStoreDto } from './dto/create-store.dto';
-import { UpdateStoreDto } from './dto/update-store.dto';
+
 import { ApiTags } from '@nestjs/swagger';
+import { StoreService } from '../services';
+import { StoreDto } from '../dto';
 
 @Controller('store')
 @ApiTags('Store')
 export class StoreController {
-  constructor(private readonly storeService: StoreService) {}
+  constructor(private readonly storeService: StoreService) { }
 
   @Post()
-  create(@Body() createStoreDto: CreateStoreDto) {
+  create(@Body() createStoreDto: StoreDto) {
     return this.storeService.create(createStoreDto);
   }
 
@@ -20,7 +20,7 @@ export class StoreController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStoreDto: UpdateStoreDto) {
+  update(@Param('id') id: string, @Body() updateStoreDto: StoreDto) {
     return this.storeService.update(+id, updateStoreDto);
   }
 }
