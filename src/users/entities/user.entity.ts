@@ -1,6 +1,15 @@
 import { Exclude } from 'class-transformer';
 import { BaseEntity } from '../../common/entities';
-import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+} from 'typeorm';
+import { ConsumerProfile } from './consumer-profile.entity';
+import { ArtistProfile } from './artist-profile.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -18,6 +27,14 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   @Exclude()
   password: string;
+
+  //relations
+  @OneToOne(() => ConsumerProfile, (consumerProfile) => consumerProfile.user)
+  consumerProfile: ConsumerProfile;
+  @OneToOne(() => ArtistProfile, (artistProfile) => artistProfile.user)
+  artistProfile: ArtistProfile;
+
+  //cycle
 
   @BeforeInsert()
   formatCredentials() {
