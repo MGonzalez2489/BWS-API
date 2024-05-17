@@ -7,6 +7,7 @@ import {
   SwaggerDocumentOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+import { ResponseInterceptor } from './common/interceptors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +21,9 @@ async function bootstrap() {
       forbidNonWhitelisted: true, //bad request for not required props
     }),
   );
+  //global interceptors
+  app.useGlobalInterceptors(new ResponseInterceptor());
+
   //SWAGGER
   const config = new DocumentBuilder()
     .setTitle('BWS API')
