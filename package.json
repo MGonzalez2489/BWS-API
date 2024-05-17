@@ -17,7 +17,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db-create": "ts-node ./node_modules/typeorm-extension/bin/cli.cjs db:create -d src/_seed/config.seeder.ts",
+    "db-drop": "ts-node ./node_modules/typeorm-extension/bin/cli.cjs db:drop -d src/_seed/config.seeder.ts",
+    "seed": "ts-node -r tsconfig-paths/register node_modules/typeorm-extension/bin/cli.cjs seed:run -d src/_seed/config.seeder.ts",
+    "init": "npm run build && npm run db-drop && npm run db-create && npm run seed"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -38,7 +42,8 @@
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.20"
+    "typeorm": "^0.3.20",
+    "typeorm-extension": "^3.5.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
