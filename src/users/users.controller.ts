@@ -16,7 +16,7 @@ import { GetUser } from 'src/auth/decorators';
 import { User } from './entities/user.entity';
 
 @Controller('users')
-@ApiTags('Users')
+@ApiTags('User')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
