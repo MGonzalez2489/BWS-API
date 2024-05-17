@@ -18,14 +18,14 @@ import { User } from './entities/user.entity';
 @Controller('users')
 @ApiTags('User')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Get()
   findAll(@Query() pagination: PaginationDTO) {
     return this.usersService.findAll(pagination);
   }
 
-  @Get('current')
+  @Get(':current')
   findCurrent(@GetUser() user: User) {
     return user;
   }

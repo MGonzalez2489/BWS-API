@@ -14,7 +14,14 @@ export class CategoryService extends BaseService<Category> {
     super(repository, 'CategoryService');
   }
 
-  async findAll(pagination: PaginationDTO) {
+  async findById(id: string): Promise<Category> {
+    try {
+      return await this.repository.findOneBy({ publicId: id });
+    } catch (error) {
+      this.handleExceptions(error);
+    }
+  }
+  async findAll(pagination: PaginationDTO): Promise<Category[]> {
     try {
       return await this.paginate(pagination);
     } catch (error) {
