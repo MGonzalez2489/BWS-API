@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Store } from '../entities';
 import { StoreDto } from '../dto';
 import { BaseService } from '../../common/services';
+import { User } from '../../users/entities';
 
 @Injectable()
 export class StoreService extends BaseService<Store> {
@@ -13,9 +13,10 @@ export class StoreService extends BaseService<Store> {
   ) {
     super(repository, 'StoreService');
   }
-  async create(createStoreDto: StoreDto) {
+  async create(user: User, createStoreDto: StoreDto) {
     try {
       const store = this.repository.create(createStoreDto);
+      store.user = user;
       await this.repository.save(store);
       return store;
     } catch (error) {
@@ -23,8 +24,12 @@ export class StoreService extends BaseService<Store> {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} store`;
+  async findOne(publicId: string) {
+    try {
+      return await this.repository.findOneBy({ publicId });
+    } catch (error) {
+      this.handleExceptions(error);
+    }
   }
 
   update(id: number, updateStoreDto: StoreDto) {

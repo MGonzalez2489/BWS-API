@@ -3,7 +3,7 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { PaginationDTO } from '../dtos';
 
 export abstract class BaseService<T> {
@@ -14,15 +14,31 @@ export abstract class BaseService<T> {
     this.logger = new Logger(source);
   }
 
-  async paginate(pagination: PaginationDTO) {
+  async searchPaginated(pagination: PaginationDTO, where: object = null) {
     const { pageSize = 10, page = 1 } = pagination;
 
     const skip = (page - 1) * pageSize;
 
-    return await this.repo.find({
+    const findObj: FindManyOptions<T> = {
       take: pageSize,
       skip,
-    });
+    };
+    if (where) {
+      findObj.where = where;
+    }
+    const total = where
+      ? await this.repo.count({ where })
+      : await this.repo.count();
+    const collection = await this.repo.find(findObj);
+
+    const totalPages = Math.ceil(total / pageSize);
+
+    const result = {
+      collection,
+      totalRecords: total,
+      totalPages,
+    };
+    return result;
   }
 
   handleExceptions(error: any) {

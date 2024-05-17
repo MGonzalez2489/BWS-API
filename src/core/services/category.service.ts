@@ -21,9 +21,9 @@ export class CategoryService extends BaseService<Category> {
       this.handleExceptions(error);
     }
   }
-  async findAll(pagination: PaginationDTO): Promise<Category[]> {
+  async findAll(pagination: PaginationDTO) {
     try {
-      return await this.paginate(pagination);
+      return await this.searchPaginated(pagination);
     } catch (error) {
       this.handleExceptions(error);
     }

@@ -15,15 +15,15 @@ export class ServiceService extends BaseService<Service> {
     super(repository, 'ServiceService');
   }
 
-  async findAll(pagination: PaginationDTO): Promise<Service[]> {
+  async findAll(pagination: PaginationDTO) {
     try {
-      return await this.paginate(pagination);
+      return await this.searchPaginated(pagination);
     } catch (error) {
       this.handleExceptions(error);
     }
   }
 
-  async findByCategory(categoryId: string): Promise<Service[]> {
+  async findByCategory(categoryId: string) {
     try {
       const category = await this.catService.findById(categoryId);
       return await this.repository.findBy({ categoryId: category.id });

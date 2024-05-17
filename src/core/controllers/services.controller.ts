@@ -1,8 +1,9 @@
 import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ServiceService } from '../services';
-import { PaginationDTO } from 'src/common/dtos';
+import { PaginationDTO } from '../../common/dtos';
 import { Service } from '../entities';
+
 @Controller('service')
 @ApiTags('Service')
 export class ServiceController {
@@ -15,7 +16,7 @@ export class ServiceController {
     return this.serviceService.findByCategory(categoryId);
   }
   @Get()
-  findAll(@Query() pagination: PaginationDTO): Promise<Service[]> {
+  findAll(@Query() pagination: PaginationDTO) {
     return this.serviceService.findAll(pagination);
   }
 }

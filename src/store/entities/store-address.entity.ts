@@ -15,5 +15,7 @@ export class StoreAddress extends BaseEntity {
   @ManyToOne(() => StoreAddress, (address) => address.store)
   @JoinColumn({ name: 'storeId' })
   store: Store;
+
+  @Column()
   storeId: number;
 }

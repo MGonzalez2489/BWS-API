@@ -34,7 +34,7 @@ export class UsersService extends BaseService<User> {
 
   async findAll(pagination: PaginationDTO) {
     try {
-      return await this.paginate(pagination);
+      return await this.searchPaginated(pagination);
     } catch (error) {
       this.handleExceptions(error);
     }
@@ -84,7 +84,7 @@ export class UsersService extends BaseService<User> {
     }
   }
 
-  isValidUserPassword(plainText: string, hash): boolean {
+  isValidUserPassword(plainText: string, hash: string): boolean {
     const hasAccess: boolean = bcrypt.compareSync(plainText, hash);
     return hasAccess;
   }
