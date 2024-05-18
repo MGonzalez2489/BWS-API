@@ -29,6 +29,9 @@ export class User extends BaseEntity {
   @Exclude()
   password: string;
 
+  @Column({ default: false })
+  isOwner: true;
+
   //relations
   @OneToOne(() => ConsumerProfile, (consumerProfile) => consumerProfile.user)
   @JoinColumn()

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -79,6 +83,22 @@ export class UsersService extends BaseService<User> {
       });
 
       return await this.repository.save(user);
+    } catch (error) {
+      this.handleExceptions(error);
+    }
+  }
+
+  async makeUserAsOwner(userPublicId: string) {
+    try {
+      let user = await this.findOne(userPublicId);
+      if (user.isOwner) {
+        throw new BadRequestException('El usuario ya es propietario');
+      }
+      user = await this.repository.preload({
+        id: user.id,
+        isOwner: true,
+      });
+      await this.repository.save(user);
     } catch (error) {
       this.handleExceptions(error);
     }
