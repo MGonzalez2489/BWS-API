@@ -1,4 +1,9 @@
-import { ClassSerializerInterceptor, Module } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+} from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { envs } from './_config';
 import { UsersModule } from './users/users.module';
@@ -8,6 +13,7 @@ import { StoreModule } from './store/store.module';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { JwtAuthGuard } from './auth/guards/auth.guard';
+import { HttpLoggerMiddleware } from './common/middleware';
 
 @Module({
   imports: [
@@ -39,4 +45,8 @@ import { JwtAuthGuard } from './auth/guards/auth.guard';
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(HttpLoggerMiddleware).forRoutes('*');
+  }
+}
