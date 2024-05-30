@@ -30,9 +30,9 @@ export abstract class BaseService<T> {
       ? await this.repo.count({ where })
       : await this.repo.count();
     const collection = await this.repo.find(findObj);
-
     const totalPages = Math.ceil(total / pageSize);
 
+    //TODO: Map result to an interface
     const result = {
       collection,
       totalRecords: total,

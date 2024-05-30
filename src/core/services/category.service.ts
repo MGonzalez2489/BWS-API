@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { BaseService } from 'src/common/services';
+import { BaseService } from '../../common/services';
 import { Category } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PaginationDTO } from 'src/common/dtos';
+import { PaginationDTO } from '../../common/dtos';
 
 @Injectable()
 export class CategoryService extends BaseService<Category> {
