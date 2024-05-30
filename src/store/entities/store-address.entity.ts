@@ -6,10 +6,13 @@ import { Store } from './store.entity';
 @Entity()
 export class StoreAddress extends BaseEntity {
   @Column()
-  street: string;
+  address: string;
 
   @Column()
-  zipCode: number;
+  lat: number;
+
+  @Column()
+  lon: number;
 
   @Exclude()
   @ManyToOne(() => StoreAddress, (address) => address.store)

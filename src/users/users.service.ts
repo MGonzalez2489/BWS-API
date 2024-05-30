@@ -29,7 +29,10 @@ export class UsersService extends BaseService<User> {
         ...userData,
         password: bcrypt.hashSync(password, 10),
       });
+      console.log('before save', user);
+
       await this.repository.save(user);
+      console.log('after save', user);
       return user;
     } catch (error) {
       this.handleExceptions(error);

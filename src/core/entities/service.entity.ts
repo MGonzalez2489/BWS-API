@@ -1,7 +1,8 @@
 import { Exclude } from 'class-transformer';
 import { BaseEntity } from '../../common/entities';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Category } from './category.entity';
+import { StoreService } from '../../store/entities';
 
 @Entity()
 export class Service extends BaseEntity {
@@ -24,6 +25,6 @@ export class Service extends BaseEntity {
   @Column()
   categoryId: number;
 
-  // @OneToMany(() => CompanyService, (service) => service.service)
-  // companyServices: CompanyService[];
+  @OneToMany(() => StoreService, (service) => service.service)
+  storeServices: StoreService[];
 }

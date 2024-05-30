@@ -53,6 +53,7 @@ export class ResponseInterceptor implements NestInterceptor {
       data: exception,
     };
 
+    console.log('entro aqui', resObj);
     response.status(status).json(resObj);
   }
 }

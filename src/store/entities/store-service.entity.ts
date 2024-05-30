@@ -1,7 +1,8 @@
 import { Exclude } from 'class-transformer';
 import { BaseEntity } from '../../common/entities';
-import { Column, Entity, JoinColumn, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne } from 'typeorm';
 import { Store } from './store.entity';
+import { Service } from '../../core/entities';
 
 @Entity()
 export class StoreService extends BaseEntity {
@@ -19,4 +20,12 @@ export class StoreService extends BaseEntity {
   @Exclude()
   @Column()
   storeId: number;
+
+  @ManyToOne(() => Service, (service) => service.storeServices)
+  @JoinColumn()
+  service: Service;
+
+  @Exclude()
+  @Column()
+  serviceId: number;
 }

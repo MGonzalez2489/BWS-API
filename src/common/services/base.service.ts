@@ -47,8 +47,9 @@ export abstract class BaseService<T> {
     }
 
     this.logger.error(error);
-    throw new InternalServerErrorException(
-      'Unexpected error, check server logs',
-    );
+    // throw error;
+    // throw new InternalServerErrorException(
+    //   'Unexpected error, check server logs',
+    // );
   }
 }

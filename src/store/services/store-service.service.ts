@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 
 import { StoreService as storeS } from './store.service';
 import { StoreServiceDto } from '../dto';
+import { ServiceService } from 'src/core/services';
 
 @Injectable()
 export class StoreServiceService extends BaseService<StoreService> {
@@ -13,6 +14,7 @@ export class StoreServiceService extends BaseService<StoreService> {
     @InjectRepository(StoreService)
     private readonly repository: Repository<StoreService>,
     private readonly storeService: storeS,
+    private readonly serviceServices: ServiceService,
   ) {
     super(repository, 'StoreServiceService');
   }
@@ -20,10 +22,15 @@ export class StoreServiceService extends BaseService<StoreService> {
   async create(storeId: string, dto: StoreServiceDto) {
     try {
       const store = await this.storeService.findOne(storeId);
-      const newService = this.repository.create(dto);
-      newService.store = store;
-
-      await this.repository.save(newService);
+      const service = await this.serviceServices.findOne(dto.serviceId);
+      const newService = {
+        price: dto.price,
+        time: dto.time,
+      };
+      const newEntity = this.repository.create(newService);
+      newEntity.storeId = store.id;
+      newEntity.service = service;
+      await this.repository.save(newEntity);
       return newService;
     } catch (error) {
       this.handleExceptions(error);
@@ -31,9 +38,9 @@ export class StoreServiceService extends BaseService<StoreService> {
   }
   async update(serviceId: string, dto: StoreServiceDto) {
     try {
-      let service = await this.findOne(serviceId);
-      service = await this.repository.preload(dto);
-      return await this.repository.save(service);
+      const service = await this.findOne(serviceId);
+      // service = await this.repository.preload(dto);
+      // return await this.repository.save(service);
     } catch (error) {
       this.handleExceptions(error);
     }

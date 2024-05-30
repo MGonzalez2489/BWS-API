@@ -14,13 +14,14 @@ import { StoreServiceDto } from '../dto';
 @Controller('storeservice')
 @ApiTags('StoreService')
 export class StoreServiceController {
-  constructor(private readonly storeService: StoreServiceService) {}
+  constructor(private readonly storeService: StoreServiceService) { }
 
   @Post(':storeId')
   create(
     @Param('storeId', ParseUUIDPipe) storeId: string,
     @Body() storeServ: StoreServiceDto,
   ) {
+    console.log('entro aqui');
     return this.storeService.create(storeId, storeServ);
   }
 
@@ -33,12 +34,12 @@ export class StoreServiceController {
   }
 
   @Get(':storeId')
-  findAll(@Param(':storeId', ParseUUIDPipe) storeId: string) {
+  findAll(@Param('storeId', ParseUUIDPipe) storeId: string) {
     return this.storeService.findByStore(storeId);
   }
 
   @Get(':serviceId')
-  findOne(@Param(':serviceId', ParseUUIDPipe) serviceId: string) {
+  findOne(@Param('serviceId', ParseUUIDPipe) serviceId: string) {
     return this.storeService.findOne(serviceId);
   }
 }

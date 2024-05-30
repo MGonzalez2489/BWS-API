@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { StoreAddressService } from '../services';
-import { StoreAddress } from '../entities';
 import { StoreAddressDto } from '../dto';
 
 @Controller('storeaddress')
@@ -17,7 +16,7 @@ export class StoreAddressController {
   constructor(private readonly storeAddressService: StoreAddressService) { }
 
   @Get(':storeId')
-  findByStore(@Param('storeId', ParseUUIDPipe) storeId: string) {
+  findByStore(@Param(':storeId', ParseUUIDPipe) storeId: string) {
     return this.storeAddressService.findBystore(storeId);
   }
 

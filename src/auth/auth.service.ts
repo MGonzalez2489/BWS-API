@@ -18,7 +18,9 @@ export class AuthService extends BaseService<any> {
     super(null, 'AuthService');
   }
   async login(dto: AuthDto) {
+    console.log('dto', dto);
     const user = await this.userService.findByEmail(dto.email);
+    console.log('user', user);
     if (!user) {
       throw new NotFoundException('Usuario no existe');
     }

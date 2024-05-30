@@ -6,11 +6,13 @@ import { StoreAddressService, StoreService as sService } from './services';
 import { StoreServiceController } from './controllers/store-service.controller';
 import { StoreServiceService } from './services/store-service.service';
 import { UsersModule } from 'src/users/users.module';
+import { CoreModule } from 'src/core/core.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Store, StoreAddress, StoreService]),
     UsersModule,
+    CoreModule,
   ],
   controllers: [
     StoreController,

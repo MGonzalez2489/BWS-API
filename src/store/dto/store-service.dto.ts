@@ -1,4 +1,4 @@
-import { IsNumber, Min } from 'class-validator';
+import { IsNumber, IsString, IsUUID, Min } from 'class-validator';
 
 export class StoreServiceDto {
   @IsNumber()
@@ -8,4 +8,8 @@ export class StoreServiceDto {
   @IsNumber()
   @Min(0)
   time: number;
+
+  @IsString()
+  @IsUUID()
+  serviceId: string;
 }

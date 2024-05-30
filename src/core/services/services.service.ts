@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { BaseService } from 'src/common/services';
 import { Service } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,6 +27,18 @@ export class ServiceService extends BaseService<Service> {
     try {
       const category = await this.catService.findById(categoryId);
       return await this.repository.findBy({ categoryId: category.id });
+    } catch (error) {
+      this.handleExceptions(error);
+    }
+  }
+
+  async findOne(publicId: string) {
+    try {
+      const service = await this.repository.findOneBy({ publicId });
+      if (!service)
+        throw new NotFoundException(`Servicio ${publicId} no encontrado.`);
+
+      return service;
     } catch (error) {
       this.handleExceptions(error);
     }

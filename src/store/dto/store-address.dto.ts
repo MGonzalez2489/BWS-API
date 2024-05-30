@@ -1,9 +1,12 @@
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class StoreAddressDto {
   @IsString()
-  street: string;
+  address: string;
 
-  @IsString()
-  zipCode: number;
+  @IsNumber()
+  lat: number;
+
+  @IsNumber()
+  lon: number;
 }
