@@ -19,4 +19,4 @@ export const CategorySeed = [
     displayName: 'Barberia',
     icon: 'images/icons/barber.png',
   },
-]
+];

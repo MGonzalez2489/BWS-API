@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { BaseService } from 'src/common/services';
+import { BaseService } from '../../common/services';
 import { Service } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PaginationDTO } from 'src/common/dtos';
+import { PaginationDTO } from '../../common/dtos';
 import { CategoryService } from './category.service';
 
 @Injectable()
@@ -26,6 +26,9 @@ export class ServiceService extends BaseService<Service> {
   async findByCategory(categoryId: string) {
     try {
       const category = await this.catService.findById(categoryId);
+      if (!category) {
+        throw new NotFoundException(`Categoria ${categoryId} no encontrada.`);
+      }
       return await this.repository.findBy({ categoryId: category.id });
     } catch (error) {
       this.handleExceptions(error);

@@ -26,5 +26,6 @@ export class Service extends BaseEntity {
   categoryId: number;
 
   @OneToMany(() => StoreService, (service) => service.service)
+  @JoinColumn()
   storeServices: StoreService[];
 }

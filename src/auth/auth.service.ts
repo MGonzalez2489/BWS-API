@@ -33,13 +33,17 @@ export class AuthService extends BaseService<any> {
     }
 
     return {
-      token: this.getJwtPayload({ publicId: user.publicId }),
+      token: this.getJwtPayload({
+        publicId: user.publicId,
+      }),
     };
   }
   async signIn(dto: AuthDto) {
     const user = await this.userService.create(dto);
     return {
-      token: this.getJwtPayload({ publicId: user.publicId }),
+      token: this.getJwtPayload({
+        publicId: user.publicId,
+      }),
     };
   }
   private getJwtPayload(payload: JwtPayload) {
