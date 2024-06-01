@@ -1,11 +1,12 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { AuthDto } from './dto/auth.dto';
-import { BaseService } from 'src/common/services';
+import { BaseService } from '../common/services';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 
@@ -18,9 +19,7 @@ export class AuthService extends BaseService<any> {
     super(null, 'AuthService');
   }
   async login(dto: AuthDto) {
-    console.log('dto', dto);
     const user = await this.userService.findByEmail(dto.email);
-    console.log('user', user);
     if (!user) {
       throw new NotFoundException('Usuario no existe');
     }
@@ -38,7 +37,14 @@ export class AuthService extends BaseService<any> {
       }),
     };
   }
-  async signIn(dto: AuthDto) {
+  async register(dto: AuthDto) {
+    dto.email = dto.email.toLowerCase().trim();
+    const existingUser = await this.userService.findByEmail(dto.email);
+    if (existingUser) {
+      throw new BadRequestException(
+        `El usuario ${dto.email} ya fue registrado.`,
+      );
+    }
     const user = await this.userService.create(dto);
     return {
       token: this.getJwtPayload({

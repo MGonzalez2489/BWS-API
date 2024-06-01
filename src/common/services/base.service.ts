@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  InternalServerErrorException,
-  Logger,
-} from '@nestjs/common';
+import { BadRequestException, Logger } from '@nestjs/common';
 import { FindManyOptions, Repository } from 'typeorm';
 import { PaginationDTO } from '../dtos';
 

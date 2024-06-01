@@ -12,4 +12,4 @@ import { ArtistProfile } from './entities/artist-profile.entity';
   providers: [UsersService],
   exports: [UsersService],
 })
-export class UsersModule { }
+export class UsersModule {}

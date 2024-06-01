@@ -8,8 +8,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { PaginationDTO } from 'src/common/dtos/pagination.dto';
-import { BaseService } from 'src/common/services';
+import { PaginationDTO } from '../common/dtos/pagination.dto';
+import { BaseService } from '../common/services';
 
 import * as bcrypt from 'bcrypt';
 
@@ -29,10 +29,7 @@ export class UsersService extends BaseService<User> {
         ...userData,
         password: bcrypt.hashSync(password, 10),
       });
-      console.log('before save', user);
-
       await this.repository.save(user);
-      console.log('after save', user);
       return user;
     } catch (error) {
       this.handleExceptions(error);
