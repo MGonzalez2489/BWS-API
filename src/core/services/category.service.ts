@@ -27,7 +27,12 @@ export class CategoryService extends BaseService<Category> {
   }
   async findAll(pagination: PaginationDTO) {
     try {
-      return await this.searchPaginated(pagination);
+      const result = await this.searchPaginated(pagination);
+      const apiUrl =
+        'http://localhost:3000/assets/images/categories/placeholder.png';
+      // result.collection.forEach((f) => (f.icon = apiUrl + f.icon));
+      result.collection.forEach((f) => (f.icon = apiUrl));
+      return result;
     } catch (error) {
       this.handleExceptions(error);
     }

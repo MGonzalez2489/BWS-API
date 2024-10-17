@@ -1,7 +1,11 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { envs } from './_config';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Logger,
+  ValidationPipe,
+} from '@nestjs/common';
 import {
   DocumentBuilder,
   SwaggerDocumentOptions,
@@ -24,6 +28,10 @@ async function bootstrap() {
   //global interceptors
   app.useGlobalInterceptors(new ResponseInterceptor());
 
+  //validation pipes
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
   //SWAGGER
   const config = new DocumentBuilder()
     .setTitle('BWS API')
@@ -38,6 +46,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config, options);
 
   SwaggerModule.setup('api', app, document);
+  app.enableCors({
+    origin: ['http://localhost:5173'],
+    methods: ['GET'],
+  });
 
   await app.listen(envs.port);
   logger.log(`==== SERVER STARTED ON PORT ${envs.port} ====`);
